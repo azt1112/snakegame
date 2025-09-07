@@ -344,16 +344,25 @@ function handleTouchMove(e) {
 // 更新速度文本
 function updateSpeedText(speed) {
     let speedText;
+    let textColor;
+    
     if (speed >= 170) {
         speedText = '慢速';
+        textColor = '#4CAF50'; // 绿色
     } else if (speed >= 130) {
         speedText = '中等';
+        textColor = '#8BC34A'; // 浅绿色
     } else if (speed >= 90) {
         speedText = '快速';
+        textColor = '#FF9800'; // 橙色
     } else {
         speedText = '极速';
+        textColor = '#FF5252'; // 红色
     }
+    
     speedValue.textContent = speedText;
+    speedValue.style.color = textColor;
+    speedValue.style.fontWeight = 'bold';
 }
 
 // 处理速度滑块变化
@@ -362,10 +371,49 @@ function handleSpeedChange() {
     gameSpeed = newSpeed;
     updateSpeedText(newSpeed);
     
+    // 更新滑块按钮颜色
+    updateSliderThumbColor(newSpeed);
+    
     // 如果游戏正在运行，重新启动游戏循环以应用新速度
     if (gameInterval && !isPaused && !isGameOver) {
         restartGameLoop();
     }
+}
+
+// 更新滑块按钮颜色
+function updateSliderThumbColor(speed) {
+    // 计算颜色值
+    let color;
+    if (speed >= 170) {
+        color = '#4CAF50'; // 绿色 - 慢速
+    } else if (speed >= 130) {
+        color = '#8BC34A'; // 浅绿色 - 中等偏慢
+    } else if (speed >= 90) {
+        color = '#FF9800'; // 橙色 - 中等偏快
+    } else {
+        color = '#FF5252'; // 红色 - 极速
+    }
+    
+    // 应用样式
+    document.documentElement.style.setProperty('--thumb-color', color);
+}
+
+// 更新滑块按钮颜色
+function updateSliderThumbColor(speed) {
+    // 计算颜色值
+    let color;
+    if (speed >= 170) {
+        color = '#4CAF50'; // 绿色 - 慢速
+    } else if (speed >= 130) {
+        color = '#8BC34A'; // 浅绿色 - 中等偏慢
+    } else if (speed >= 90) {
+        color = '#FF9800'; // 橙色 - 中等偏快
+    } else {
+        color = '#FF5252'; // 红色 - 极速
+    }
+    
+    // 应用样式
+    document.documentElement.style.setProperty('--thumb-color', color);
 }
 
 // 事件监听
@@ -380,5 +428,6 @@ speedSlider.addEventListener('input', handleSpeedChange);
 
 // 初始化游戏
 initGame();
-// 初始化速度文本
+// 初始化速度文本和滑块颜色
 updateSpeedText(gameSpeed);
+updateSliderThumbColor(gameSpeed);
